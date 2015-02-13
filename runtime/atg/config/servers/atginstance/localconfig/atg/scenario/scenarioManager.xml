@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<process-manager-configuration>
+
+ <process-editor-server>
+  <server-name>atg_front_slm:8850</server-name>
+ </process-editor-server>
+
+ <global-server>
+  <server-name>atg_front1:8850</server-name>
+ </global-server>
+ <global-server>
+  <server-name>atg_front2:8850</server-name>
+ </global-server>
+
+</process-manager-configuration>

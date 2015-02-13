@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone='yes'?>
+<jpsConfig xmlns="http://xmlns.oracle.com/oracleas/schema/11/jps-config-11_1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.oracle.com/oracleas/schema/11/jps-config-11_1.xsd jps-config-11_1.xsd" schema-major-version="11" schema-minor-version="1">
+  <serviceProviders>
+
+    <serviceProvider type="CREDENTIAL_STORE" name="credstoressp" class="oracle.security.jps.internal.credstore.ssp.SspCredentialStoreProvider">
+      <description>SecretStore-based CSF provider</description>
+    </serviceProvider>
+    
+    <serviceProvider type="IDENTITY_STORE" name="idstore.xml.provider" class="oracle.security.jps.internal.idstore.xml.XmlIdentityStoreProvider">
+       <description>XML-based IdStore Provider</description>
+    </serviceProvider>
+
+    <serviceProvider type="POLICY_STORE" name="policystore.xml.provider" class="oracle.security.jps.internal.policystore.xml.XmlPolicyStoreProvider">
+      <description>XML-based PolicyStore Provider</description>
+    </serviceProvider>
+    
+    <serviceProvider type="AUDIT" name="audit.provider" class="oracle.security.jps.internal.audit.AuditProvider">
+      <description>Audit Service</description>
+    </serviceProvider>
+        
+  </serviceProviders>
+
+  <serviceInstances>
+
+    <serviceInstance name="credstore" provider="credstoressp" location="./">
+      <description>File Based Credential Store Service Instance</description>
+    </serviceInstance>
+
+    <serviceInstance name="idstore.xml" provider="idstore.xml.provider" location="./system-jazn-data.xml">
+      <description>File Based Identity Store Service Instance</description>
+    </serviceInstance>
+
+    <serviceInstance name="policystore.xml" provider="policystore.xml.provider" location="./system-jazn-data.xml">
+      <description>File Based Policy Store Service Instance</description>
+    </serviceInstance>
+
+    <serviceInstance name="audit" provider="audit.provider" location="./audit-store.xml">
+      <property name="audit.loader.user" value="username"/>
+      <property name="audit.loader.password" value="password"/>
+      <property name="audit.loader.jdbc.string" value="jdbcstring"/>
+      <property name="audit.filterPreset" value="None"/>
+	    <property name="audit.maxDirSize" value ="0"/>
+	    <property name="audit.maxFileSize" value ="104857600"/>
+      <property name="audit.loader.interval" value="15" />
+      <property name="audit.loader.repositoryType" value="File" />
+      <property name="auditstore.type" value="file"/>
+    </serviceInstance>
+  </serviceInstances>
+
+  <jpsContexts default="default">
+    <!-- This is the default JPS context. All the mendatory services and Login Modules must be configured in this default context -->
+    <jpsContext name="default">
+      <serviceInstanceRef ref="credstore" />	
+      <serviceInstanceRef ref="idstore.xml" />
+      <serviceInstanceRef ref="policystore.xml" />	
+      <serviceInstanceRef ref="audit" />					
+    </jpsContext>
+  </jpsContexts>
+</jpsConfig>
+<!-- @version $Id: //product/DAS/version/11.1/release/home/security/jps-config.xml#2 $$Change: 878943 $-->
